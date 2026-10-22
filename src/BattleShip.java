@@ -58,22 +58,26 @@ public class BattleShip {
     }
 
     static void printField(char[][] field){
-        String row = "";
+        String row = "   ";
+        for (int k = 0; k < FIELD_SIZE; k++){
+            row += (k + 1) + " ";
+        }
+        System.out.println(row);
         for (int i = 0; i < field.length; i++){
+            row = (i + 1) + "  ";
             for (int j = 0; j < field.length; j++){
                 row = row + field[i][j] + " ";
             }
             System.out.println(row);
-            row = "";
         }
     }
 
     static int[] askShotCoordinates(Scanner scanner){
         System.out.print("Dove vuoi sparare?\nRiga > ");
-        int shotRow = scanner.nextInt();
+        int shotRow = scanner.nextInt() - 1;
         scanner.nextLine();
         System.out.print("Colonna > ");
-        int shotColumn = scanner.nextInt();
+        int shotColumn = scanner.nextInt() - 1;
         scanner.nextLine();
 
         return new int[]{shotRow, shotColumn};
