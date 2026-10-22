@@ -7,6 +7,7 @@ public class BattleShip {
     final static char SYMBOL_MISS = 'O';
     final static int FIELD_SIZE = 5;
     final static int SHIP_SIZE = 3;
+    final static int MAX_SHOTS = 15;
     static int shotCount;
     static int successfulShots;
     static int shipParts;
@@ -28,12 +29,20 @@ public class BattleShip {
 
         int[] playerShotCoordinates;
 
-        while (successfulShots < shipParts){
+        while (successfulShots < shipParts && shotCount < MAX_SHOTS){
             playerShotCoordinates = askShotCoordinates(scanner);
             if (!coordinatesCheck(visibleField, playerShotCoordinates)){
                 continue;
             }
             shotOutcome(visibleField, shipsField, playerShotCoordinates);
+            printField(visibleField);
+        }
+
+        if (successfulShots == shipParts){
+            System.out.println("Nave affondata in " + shotCount + " colpi!");
+        } else {
+            System.out.println("Hai perso! La nave era qui:");
+            showShips(visibleField, shipsField);
             printField(visibleField);
         }
 
@@ -113,5 +122,15 @@ public class BattleShip {
             }
         }
         shipParts += shipSize;
+    }
+
+    static void showShips (char[][] visibleField, char[][] shipsField){
+        for (int i = 0; i < FIELD_SIZE; i++){
+            for (int j = 0; j < FIELD_SIZE; j++){
+                if (shipsField[i][j] == SYMBOL_SHIP && visibleField[i][j] == SYMBOL_WATER){
+                    visibleField[i][j] = SYMBOL_SHIP;
+                }
+            }
+        }
     }
 }
