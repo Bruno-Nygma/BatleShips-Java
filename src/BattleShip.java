@@ -6,7 +6,7 @@ public class BattleShip {
     final static char SYMBOL_HIT = 'X';
     final static char SYMBOL_MISS = 'O';
     final static int FIELD_SIZE = 5;
-    final static int[][] FIXED_SHIP = {{2, 1}, {2, 2}, {2, 3}};
+    final static int SHIP_SIZE = 3;
     static int shotCount;
     static int successfulShots;
     static int shipParts;
@@ -24,7 +24,7 @@ public class BattleShip {
 
         char[][] shipsField = new char[FIELD_SIZE][FIELD_SIZE];
         fillField(shipsField);
-        addShip(shipsField, FIXED_SHIP);
+        placeShipRandom(shipsField, SHIP_SIZE);
 
         int[] playerShotCoordinates;
 
@@ -56,13 +56,6 @@ public class BattleShip {
             }
             System.out.println(row);
             row = "";
-        }
-    }
-
-    static void addShip(char[][] field, int[][] boat){
-        for (int[] coordinate : boat){
-            field[coordinate[0]][coordinate[1]] = SYMBOL_SHIP;
-            shipParts++;
         }
     }
 
@@ -101,5 +94,24 @@ public class BattleShip {
             return false;
         }
         return true;
+    }
+
+    static void placeShipRandom(char[][] shipsField, int shipSize){
+        int maxStartTile = FIELD_SIZE - shipSize;
+        boolean horizontal = Math.random() < 0.5;
+
+        int fixedCoordinate = (int) (Math.random() * FIELD_SIZE);
+        int startTile = (int) (Math.random() * maxStartTile + 1);
+
+        if (horizontal){
+            for (int i = 0; i < shipSize; i++){
+                shipsField[fixedCoordinate][startTile + i] = SYMBOL_SHIP;
+            }
+        } else {
+            for (int i = 0; i < shipSize; i++){
+                shipsField[startTile + i][fixedCoordinate] = SYMBOL_SHIP;
+            }
+        }
+        shipParts += shipSize;
     }
 }
